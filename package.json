@@ -1,0 +1,60 @@
+{
+  "name": "ned",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "An editor for nostr",
+  "homepage": "nodetec.co",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodetec/ned"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/chrisatmachine"
+    },
+    "https://getalby.com/p/chrisatmachine"
+  ],
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "watch": "tsup src/index.ts --format esm --dts --watch",
+    "lint": "tsc",
+    "outdated": "npx npm-check-updates -ui -p"
+  },
+  "keywords": [
+    "nostr",
+    "react"
+  ],
+  "author": "Christian Chiarulli",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "^8.56.1",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "prettier": "^3.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^3.4.17",
+    "tsup": "^8.0.1",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.0.0"
+  },
+  "dependencies": {
+    "@lexical/react": "^0.25.0",
+    "clsx": "^2.1.1",
+    "lexical": "^0.25.0",
+    "prismjs": "^1.29.0",
+    "tailwind-merge": "^3.0.2"
+  }
+}

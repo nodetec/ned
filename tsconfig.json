@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    /* Base Options */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "verbatimModuleSyntax": false,
+    "allowJs": true,
+    "resolveJsonModule": false,
+    "rootDir": ".",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "importHelpers": true,
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    /* If NOT using TSC for transpiling */
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    /* If running in DOM */
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    /* If building library */
+    "declaration": true,
+    /* If building library in monorepo */
+    "declarationMap": true,
+    "sourceMap": true,
+    /* If building for React */
+    "jsx": "react-jsx",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js",
+    ".eslintrc.cjs",
+    "tailwind.config.js",
+    "tsup.config.ts"
+  ],
+  "exclude": ["dist", "node_modules", "src/tests/**/*"]
+}
