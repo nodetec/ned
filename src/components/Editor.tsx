@@ -6,6 +6,7 @@ import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
   TRANSFORMERS,
+  ElementTransformer,
 } from "@lexical/markdown";
 import {
   LexicalComposer,
@@ -19,7 +20,10 @@ import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPl
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 
+import { ImageNode } from "../nodes/ImageNode";
 import { CustomHashtagPlugin } from "../plugins/CustomHashtagPlugin";
+import { ImagePlugin } from "../plugins/ImagePlugin";
+import { ImageMarkdownTransformPlugin } from "../plugins/ImageMarkdownTransformPlugin";
 import { OnBlurPlugin } from "../plugins/OnBlurPlugin";
 import { OnChangeDebouncePlugin } from "../plugins/OnChangeDebouncePlugin";
 import { OnFocusPlugin } from "../plugins/OnFocus";
@@ -29,9 +33,17 @@ import {
   type EditorThemeClasses,
   type EditorState,
   type LexicalEditor,
+  $getRoot,
+  $isElementNode,
+  $isParagraphNode,
+  $isRootNode,
 } from "lexical";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { cn } from "~/lib/utils";
+import IMAGE_TRANSFORMERS from "../transformers/ImageMarkdownTransformer";
+
+// Combine the default transformers with our custom image transformers
+const COMBINED_TRANSFORMERS = [...TRANSFORMERS, ...IMAGE_TRANSFORMERS];
 
 function onError(error: Error) {
   console.error(error);
@@ -61,7 +73,7 @@ export function Editor({
   className,
 }: EditorProps) {
   function getInitalContent() {
-    $convertFromMarkdownString(initialMarkdown, TRANSFORMERS, undefined, false);
+    $convertFromMarkdownString(initialMarkdown, COMBINED_TRANSFORMERS, undefined, false);
     // $setSelection(null);
   }
 
@@ -71,21 +83,26 @@ export function Editor({
     _: Set<string>
   ) {
     await editor.read(async () => {
-      const markdown = $convertToMarkdownString(TRANSFORMERS);
+      // Use the combined transformers for proper image serialization
+      const markdown = $convertToMarkdownString(COMBINED_TRANSFORMERS);
+      
+      // Log for debugging
+      console.debug('Editor content converted to markdown:', markdown);
+      
       onChange(markdown);
     });
   }
 
   async function _onBlur(event: FocusEvent, editor: LexicalEditor) {
     await editor.read(async () => {
-      const markdown = $convertToMarkdownString(TRANSFORMERS);
+      const markdown = $convertToMarkdownString(COMBINED_TRANSFORMERS);
       onBlur(markdown);
     });
   }
 
   async function _onFocus(event: FocusEvent, editor: LexicalEditor) {
     await editor.read(async () => {
-      const markdown = $convertToMarkdownString(TRANSFORMERS);
+      const markdown = $convertToMarkdownString(COMBINED_TRANSFORMERS);
       onFocus(markdown);
     });
   }
@@ -103,8 +120,7 @@ export function Editor({
       LinkNode,
       AutoLinkNode,
       HashtagNode,
-      // ImageNode,
-      // BannerNode,
+      ImageNode,
     ],
     onError,
     theme,
@@ -132,9 +148,11 @@ export function Editor({
       <OnChangeDebouncePlugin onChange={_onChange} debounceTime={500} />
       <OnBlurPlugin onBlur={_onBlur} />
       <OnFocusPlugin onFocus={_onFocus} />
-      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <MarkdownShortcutPlugin transformers={COMBINED_TRANSFORMERS} />
       <HistoryPlugin />
       <CustomHashtagPlugin />
+      <ImagePlugin />
+      <ImageMarkdownTransformPlugin />
       <ScrollCenterCurrentLinePlugin />
       <AutoFocusPlugin />
     </LexicalComposer>
