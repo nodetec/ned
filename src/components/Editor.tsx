@@ -6,7 +6,6 @@ import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
   TRANSFORMERS,
-  ElementTransformer,
 } from "@lexical/markdown";
 import {
   LexicalComposer,
@@ -29,14 +28,10 @@ import { OnChangeDebouncePlugin } from "../plugins/OnChangeDebouncePlugin";
 import { OnFocusPlugin } from "../plugins/OnFocus";
 import { ScrollCenterCurrentLinePlugin } from "../plugins/ScrollCenterCurrentLinePlugin";
 import {
-//   $setSelection,
+  //   $setSelection,
   type EditorThemeClasses,
   type EditorState,
   type LexicalEditor,
-  $getRoot,
-  $isElementNode,
-  $isParagraphNode,
-  $isRootNode,
 } from "lexical";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { cn } from "~/lib/utils";
@@ -73,7 +68,12 @@ export function Editor({
   className,
 }: EditorProps) {
   function getInitalContent() {
-    $convertFromMarkdownString(initialMarkdown, COMBINED_TRANSFORMERS, undefined, false);
+    $convertFromMarkdownString(
+      initialMarkdown,
+      COMBINED_TRANSFORMERS,
+      undefined,
+      false
+    );
     // $setSelection(null);
   }
 
@@ -85,10 +85,10 @@ export function Editor({
     await editor.read(async () => {
       // Use the combined transformers for proper image serialization
       const markdown = $convertToMarkdownString(COMBINED_TRANSFORMERS);
-      
+
       // Log for debugging
-      console.debug('Editor content converted to markdown:', markdown);
-      
+      console.debug("Editor content converted to markdown:", markdown);
+
       onChange(markdown);
     });
   }
