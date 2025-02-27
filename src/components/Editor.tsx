@@ -25,12 +25,13 @@ import { OnChangeDebouncePlugin } from "../plugins/OnChangeDebouncePlugin";
 import { OnFocusPlugin } from "../plugins/OnFocus";
 import { ScrollCenterCurrentLinePlugin } from "../plugins/ScrollCenterCurrentLinePlugin";
 import {
-  $setSelection,
+//   $setSelection,
   type EditorThemeClasses,
   type EditorState,
   type LexicalEditor,
 } from "lexical";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { cn } from "~/lib/utils";
 
 function onError(error: Error) {
   console.error(error);
@@ -59,10 +60,10 @@ export function Editor({
   theme,
   className,
 }: EditorProps) {
-    function getInitalContent() {
-      $convertFromMarkdownString(initialMarkdown, TRANSFORMERS, undefined, false);
-      // $setSelection(null);
-    }
+  function getInitalContent() {
+    $convertFromMarkdownString(initialMarkdown, TRANSFORMERS, undefined, false);
+    // $setSelection(null);
+  }
 
   async function _onChange(
     editorState: EditorState,
@@ -116,9 +117,13 @@ export function Editor({
         contentEditable={
           <ContentEditable
             onClick={handleClick}
-            className={className}
-            aria-placeholder={"Enter some text..."}
-            placeholder={<div>Enter some text...</div>}
+            className={cn(
+              "min-h-[calc(100vh-4rem)] flex-auto select-text flex-col pb-[50%] caret-sky-500/90 focus-visible:outline-none",
+              className
+            )}
+            // TODO: placeholder doesn't work
+            // aria-placeholder={"Enter some text..."}
+            // placeholder={<div>Enter some text...</div>}
           />
         }
         ErrorBoundary={LexicalErrorBoundary}
