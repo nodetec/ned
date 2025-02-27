@@ -68,7 +68,7 @@ export function Editor({
   async function _onChange(
     editorState: EditorState,
     editor: LexicalEditor,
-    tags: Set<string>
+    _: Set<string>
   ) {
     await editor.read(async () => {
       const markdown = $convertToMarkdownString(TRANSFORMERS);
