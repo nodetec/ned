@@ -1,12 +1,12 @@
 {
-  "name": "ned",
+  "name": "nostr-edit",
   "version": "0.0.1",
   "type": "module",
   "description": "An editor for nostr",
   "homepage": "nodetec.co",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodetec/ned"
+    "url": "git+https://github.com/nodetec/ned.git"
   },
   "files": [
     "dist/**/*"
