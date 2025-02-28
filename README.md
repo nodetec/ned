@@ -23,7 +23,6 @@ function MyEditor() {
         onBlur={(markdown) => console.log("blur", markdown)}
         onFocus={(markdown) => console.log("focus", markdown)}
       />
-      <InsertImageButton />
     </div>
   );
 }
@@ -31,30 +30,10 @@ function MyEditor() {
 
 ### Adding Images
 
-There are two ways to add images:
-
-1. Use the `InsertImageButton` component:
-
-```tsx
-<InsertImageButton altText="My image" />
-```
-
-2. Use markdown syntax in the editor:
+1. Use markdown syntax in the editor:
 
 ```
 ![Alt text](https://example.com/image.jpg)
 ```
 
-3. Programmatically dispatch the insert image command:
-
-```tsx
-import { INSERT_IMAGE_COMMAND, ImagePayload } from "nostr-edit";
-
-// Inside a component with access to the Lexical editor instance
-editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-  src: "https://example.com/image.jpg",
-  altText: "My image",
-  width: 500, // optional
-  height: 300, // optional
-});
-```
+2. Just paste an image directly into the editor
